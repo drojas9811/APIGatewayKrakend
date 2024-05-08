@@ -11,6 +11,6 @@ services:
       - "8080:8080"
     env_file:
       - .env
-    #command: ["run", "-d", "-c", "/etc/krakend/krakend.json"]
+    command: ["run", "-d", "-c", "/etc/krakend/krakend.json"]
 
     
