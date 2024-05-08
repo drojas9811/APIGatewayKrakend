@@ -30,7 +30,4 @@ RUN krakend check -c /tmp/krakend.json --lint
 RUN rm -r ./*
 RUN mv /tmp/krakend.json /etc/krakend/
 RUN chmod 777 /etc/krakend/krakend.json
-CMD ["sleep", "infinity"]
-#COPY --from=stage /tmp/krakend.json .
-#COPY ./config/krakend/krakend.json ./
-#COPY --from=builder /myproject-plugin/test-plugin.so /etc/krakend/plugins/
+
