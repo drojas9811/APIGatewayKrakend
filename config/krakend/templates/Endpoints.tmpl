@@ -1,0 +1,20 @@
+{{ define "Endpoints" }}
+
+{{- $envs := . -}}
+
+    {
+        "endpoint": "/test",
+        "method": "GET",
+        {{ include "default_backend_timeout.tmpl" }},
+        {{ include "default_backend_output_encoding.tmpl" }},
+        "backend": [
+            {
+                "method": "GET",
+                "host": [
+                    "{{ $envs.host_httpbin }}"
+                ],
+                "url_pattern": "/get"
+            }
+        ]
+    }
+{{- end -}}

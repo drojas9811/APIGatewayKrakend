@@ -1,0 +1,16 @@
+version: "3"
+services:
+  krakend:
+    image: krakend
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - ENV=dev
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    #command: ["run", "-d", "-c", "/etc/krakend/krakend.json"]
+
+    

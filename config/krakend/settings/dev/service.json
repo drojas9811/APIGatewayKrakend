@@ -1,0 +1,12 @@
+{
+    "name": "APIGateway",
+    "environment": "DEV",
+    "timeout": "25s",
+    "cache_ttl": "3s",
+    "default_host": "http://localhost:8080",
+    "output_encoding": "json",
+    "plugin": {
+        "pattern": ".so",
+        "folder": "./plugins/"
+    }
+}
