@@ -1,3 +1,5 @@
 {
-    "host_httpbin": "https://httpbin.org"
+    "host_httpbin": "https://httpbin.org",
+    "host_GOT":"https://www.anapioficeandfire.com",
+    "host_SOAP":"https://www.dataaccess.com"
 }

@@ -1,3 +1,9 @@
+FROM --platform=linux/amd64 golang:1.19.2-alpine as builder
+RUN apk add make gcc musl-dev binutils-gold
+
+WORKDIR  /myproject-plugin
+COPY ./plugins/* ./
+RUN  go build -buildmode=plugin -o APIGatewayPlugin.so .
 
 FROM devopsfaith/krakend:2.6.2
 
@@ -24,4 +30,6 @@ RUN krakend check -c /tmp/krakend.json --lint
 RUN rm -r ./*
 RUN mv /tmp/krakend.json /etc/krakend/
 RUN chmod 777 /etc/krakend/krakend.json
+COPY --from=builder /myproject-plugin/APIGatewayPlugin.so /etc/krakend/plugins/
+
 

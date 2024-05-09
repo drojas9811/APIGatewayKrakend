@@ -3,7 +3,7 @@
 {{- $envs := . -}}
 
     {
-        "endpoint": "/test",
+        "endpoint": "/Gateway/Drojas9811/test",
         "method": "GET",
         {{ include "default_backend_timeout.tmpl" }},
         {{ include "default_backend_output_encoding.tmpl" }},
@@ -16,5 +16,75 @@
                 "url_pattern": "/get"
             }
         ]
+    },
+    {
+        "endpoint": "/Gateway/Drojas9811/GameofThrones/houses",
+        "method": "GET",
+        "input_query_strings": [
+            "name",
+            "region",
+            "words"
+        ],
+        {{ include "default_backend_timeout.tmpl" }},
+        {{ include "default_backend_output_encoding.tmpl" }},
+        "backend": [
+            {
+                "method": "GET",
+                "host": [
+                    "{{ $envs.host_GOT }}"
+                ],
+                "url_pattern": "/api/houses"
+            }
+        ]
+    },
+    {
+        "endpoint": "/Gateway/Drojas9811/GameofThrones/books",
+        "method": "GET",
+        "input_query_strings": [
+            "country",
+            "name"
+        ],
+        {{ include "default_backend_timeout.tmpl" }},
+        {{ include "default_backend_output_encoding.tmpl" }},
+        "backend": [
+            {
+                "method": "GET",
+                "host": [
+                    "{{ $envs.host_GOT }}"
+                ],
+                "url_pattern": "/api/books"
+            }
+        ]
+    },
+    {
+        "endpoint": "/Gateway/Drojas9811/GameofThrones/",
+        "method": "GET",
+        {{ include "default_backend_timeout.tmpl" }},
+        "output_encoding": "json",
+        "input_query_strings": [
+                "region",
+                "words"
+            ],
+        "backend": [
+            {
+                "method": "GET",
+                "encoding":"safejson",
+                "host": [
+                    "{{ $envs.host_GOT }}"
+                ],
+                "url_pattern": "/api/books",
+                "group":"booksArray"
+            },
+            {
+                "method": "GET",
+                "encoding":"safejson",
+                "host": [
+                    "{{ $envs.host_GOT }}"
+                ],
+                "url_pattern": "/api/houses",
+                "group":"housesArray"
+            }
+        ]
     }
+
 {{- end -}}
