@@ -8,16 +8,15 @@ import (
 const (
 	XMLNumber2WordsBase = `<?xml version="1.0" encoding="utf-8"?>
 					<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-					<soap:Body>
-					<NumberToWords xmlns="http://www.dataaccess.com/webservicesserver/">
-					{COMMAND_CONTENT}
-    				</NumberToWords>					
+					<soap:Bod>
+					{COMMAND_CONTENT}				
 					</soap:Body>
 					</soap:Envelope>`
 )
 
 type ReqNumber2WordsModelXML struct {
-	UbiNum string `xml:"ubiNum"`
+	UbiNum  string   `xml:"ubiNum"`
+	XMLName xml.Name `xml:"http://www.dataaccess.com/webservicesserver/ NumberToWords"`
 }
 
 func (r *ReqNumber2WordsModelXML) Init(num2word string) {
@@ -38,6 +37,12 @@ func (r *RespNumber2WordsModelJson) Init(NumString string) {
 }
 
 type RespNumber2WordsModelXML struct {
-	XMLName      xml.Name `xml:"Envelope"`
-	Number2Words string   `xml:"Body>m:NumberToWordsResponse>m:NumberToWordsResult"`
+	XMLName xml.Name `xml:"http://schemas.xmlsoap.org/soap/envelope/ Envelope"`
+	Body    Body   `xml:"Body"`
+}
+type Body struct{
+	NumberToWordsResponse Body2 `xml:"http://www.dataaccess.com/webservicesserver/ NumberToWordsResponse"`
+}
+type Body2 struct{
+	NumberToWordsResult string `xml:"NumberToWordsResult"`
 }

@@ -7,8 +7,11 @@ import (
 	"net/http"
 )
 
+
+
 type registerer string
-var GatewayClient = registerer("GatewayPlugin")
+
+var ClientRegisterer = registerer("GatewayPlugin")
 func (r registerer) RegisterClients(f func(name string, handler func(context.Context, map[string]interface{}) (http.Handler, error))) {
 	f(string(r)+"-client", r.PluginRest2Soap_Client)
 }

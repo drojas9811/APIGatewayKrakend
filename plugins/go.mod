@@ -1,5 +1,5 @@
 module plugins
 
-go 1.19
+go 1.22
 
 require github.com/op/go-logging v0.0.0-20160315200505-970db520ece7

@@ -15,9 +15,9 @@ import (
 func ReqNumberToWords(req *http.Request) (int, string) {
 	log.Logger.Info("GATEWAY :: Plugin Rest2Soap :: HANDLER :: REQUEST :: Number2Words :: IN PROCESS")
 
-	num2Word := (*req).URL.Query().Get("number2word")
+	num2Word := (*req).URL.Query().Get("number2words")
 	aux := (*req).URL.Query()
-	aux.Del("number2word")
+	aux.Del("number2words")
 
 	var newResponseXml data.ReqNumber2WordsModelXML
 	newResponseXml.Init(num2Word)
@@ -48,6 +48,7 @@ func RespNumberToWords(resp *http.Response) (int, string) {
 		if err != nil {
 			return http.StatusInternalServerError, "empty body"
 		}
+		log.Logger.Info("GATEWAY :: Plugin Rest2Soap :: HANDLER :: RESPONSE :: Number2Words :: BODY", string(respBodyBytes))
 		var responseStruct data.RespNumber2WordsModelXML
 		err = xml.Unmarshal(respBodyBytes, &responseStruct)
 		if err != nil {
@@ -56,7 +57,7 @@ func RespNumberToWords(resp *http.Response) (int, string) {
 		}
 
 		var outputResponse data.RespNumber2WordsModelJson
-		outputResponse.Init(responseStruct.Number2Words)
+		outputResponse.Init(responseStruct.Body.NumberToWordsResponse.NumberToWordsResult)
 		jsonBytesResponse, err := json.Marshal(outputResponse)
 		if err != nil {
 			log.Logger.Error("GATEWAY :: Plugin Rest2Soap :: HANDLER :: RESPONSE :: Number2Words :: json body invalid.", err)
@@ -66,7 +67,9 @@ func RespNumberToWords(resp *http.Response) (int, string) {
 		finalStatusCode = http.StatusOK
 	default:
 		log.Logger.Warning("GATEWAY :: Plugin Rest2Soap :: HANDLER :: RESPONSE :: Number2Words :: An error has come up from the backend.")
-		finalJsonBodyResponse = "An error has come up from the backend."
+		var errorStruct data.ErrorJson
+		errorStruct.Init("An error has come up from the backend.",http.StatusInternalServerError)
+		finalJsonBodyResponse = errorStruct.ToString()
 		finalStatusCode =http.StatusInternalServerError
 	}
 
