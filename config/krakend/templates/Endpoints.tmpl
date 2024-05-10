@@ -85,6 +85,30 @@
                 "group":"housesArray"
             }
         ]
+    },
+    {
+        "endpoint": "/Gateway/Drojas9811/number2words",
+        "method": "GET",
+        {{ include "default_backend_timeout.tmpl" }},
+        {{ include "default_backend_output_encoding.tmpl" }},
+        "input_query_strings": [
+        "number2words"
+        ],
+        "backend": [
+            {
+                "method": "POST",
+                "host":[
+                    "{{ $envs.host_SOAP }}"
+                ],
+                "url_pattern": "/webservicesserver/NumberConversion.wso",
+                "extra_config":{
+                    "plugin/http-client":{
+                        "name": "GatewayPlugin-client",
+                        "identifier": "NumberToWords"
+                    }
+                }
+            }
+        ]
     }
 
 {{- end -}}
